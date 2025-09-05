@@ -440,46 +440,6 @@ The model is evaluated using challenge-specific metrics:
 - **Perturbation Discrimination Score (PDS)**: Assesses if predictions can identify perturbations
 - **Mean Absolute Error (MAE)**: Direct prediction accuracy
 
-## Advanced Usage
-```
-
-## � Beautiful Training Experience
-
-### Real-Time Progress Visualization
-
-Experience training like never before with rich console output:
-
-- **🎯 Live Progress Bars**: Real-time epoch and step progress with ETA
-- **📊 Dynamic Metrics Table**: Live updating loss values and trends  
-- **🏆 Best Metrics Tracking**: Automatic tracking of peak performance
-- **⏱️ Smart Time Estimates**: Accurate completion time predictions
-- **🎨 Color-Coded Output**: Easy-to-read formatted console display
-
-### Comprehensive Training Reports
-
-Automatically generated after training:
-
-- **Loss Evolution Plots**: Detailed matplotlib visualizations
-- **Challenge Metrics Dashboard**: DES, PDS, MAE trends over time
-- **Performance Analysis**: Training speed and bottleneck identification  
-- **HTML Summary Report**: Complete training overview in your browser
-- **Exportable Data**: JSON training history for further analysis
-
-### Demo the Experience
-
-```bash
-# See the beautiful progress tracking in action
-python demo_progress.py
-```
-
-## �🏆 Challenge Metrics
-
-The model is evaluated using challenge-specific metrics:
-
-- **Differential Expression Score (DES)**: Measures accuracy of up/down regulation predictions
-- **Perturbation Discrimination Score (PDS)**: Assesses if predictions can identify perturbations
-- **Mean Absolute Error (MAE)**: Direct prediction accuracy
-
 ## 🔧 Advanced Usage
 
 ### Hyperparameter Tuning
@@ -564,30 +524,6 @@ python scripts/optimize_gpu.py --config configs/base_config.yaml --find-optimal
 
 # Monitor GPU during training
 python scripts/monitor_gpu.py --log-file gpu_monitoring.log
-```
-
-## Project Structure
-
-```
-vcc-transformer-project/
-├── configs/
-│   └── base_config.yaml         # Main configuration
-├── data/                        # Data directory
-├── scripts/
-│   ├── train.py                # Training script
-│   └── predict.py              # Prediction script
-├── src/vcc_transformer/
-│   ├── data/
-│   │   └── dataset.py          # Dataset implementation
-│   ├── models/
-│   │   └── transformer.py      # Model architecture
-│   ├── training/
-│   │   ├── trainer.py          # Training logic
-│   │   └── losses.py           # Loss functions
-│   └── utils/
-│       └── config.py           # Configuration utilities
-├── requirements.txt
-└── README.md
 ```
 
 ## Testing and Validation
