@@ -1,35 +1,18 @@
-# VCC Transformer: High-Performance Multi-Task Transformer for Virtual Cell Challenge
+# VCC Transformer: Multi-Task Transformer for Virtual Cell Challenge
 
-A PyTorch implementation of a multi-task learning Transformer model for predicting gene expression profiles in response to single-gene knockout perturbations. This project is designed for the "A Cell is a Computer: The Virtual Cell Challenge".
+A PyTorch implementation of a multi-task learning Transformer model for predicting gene expression profiles in response to single-gene knockout perturbations. Designed for the "A Cell is a Computer: The Virtual Cell Challenge".
 
-## Key Features
+## Features
 
-- **Multi-Task Lea## Beautiful Training Experience
-
-### Rea## Challenge Metrics
-
-The model is evaluated using challenge-specific metrics:
-
-- **Differential Expression Score (DES)**: Measures accuracy of up/down regulation predictions
-- **Perturbation Discrimination Score (PDS)**: Assesses if predictions can identify perturbations
-- **Mean Absolute Error (MAE)**: Direct prediction accuracy
-
-## Advanced Usageogress Visualization
-
-Rich console output includes:
-
-- **Live Progress Bars**: Real-time epoch and step progress with ETA
-- **Dynamic Metrics Table**: Live updating loss values and trends  
-- **Best Metrics Tracking**: Automatic tracking of peak performance
-- **Smart Time Estimates**: Accurate completion time predictions
-- **Color-Coded Output**: Easy-to-read formatted console displaymultaneous reconstruction and classification for robust representations
-- **Flash Attention**: Memory-efficient attention mechanism for handling large gene sequences
-- **Beautiful Progress Tracking**: Real-time metrics and progress bars
-- **Comprehensive Reporting**: Automatic generation of training plots and HTML reports
-- **High Performance**: Optimized for multiple RTX 3090s with 64GB RAM
-- **Distributed Training**: Built-in support for multi-GPU training with PyTorch DDP
-- **Memory Efficient**: Automatic Mixed Precision (AMP) and gradient checkpointing
-- **Production Ready**: Model compilation with `torch.compile()` for maximum speed
+- Multi-task learning with simultaneous reconstruction and classification
+- Flash Attention for memory-efficient processing of large gene sequences
+- Real-time training progress tracking and metrics visualization
+- Automatic generation of training plots and HTML reports
+- Optimized for multiple RTX 3090s with 64GB RAM
+- Distributed training support with PyTorch DDP
+- Automatic Mixed Precision (AMP) and gradient checkpointing
+- Model compilation with `torch.compile()` for performance optimization
+- GPU undervolting and power management utilities
 
 ## Model Architecture and Logic
 
@@ -156,7 +139,7 @@ The multi-task framework also provides natural uncertainty quantification. When 
 
 This integrated architecture transforms the challenge of cellular perturbation prediction from a simple regression problem into a comprehensive modeling framework that captures the complexity, interpretability, and biological reality of gene regulatory systems.
 
-## Technical Architecture Overview
+## Architecture Overview
 
 The model implements a Transformer-based architecture with:
 
@@ -275,17 +258,17 @@ python scripts/predict.py \
     --run-cell-eval
 ```
 
-### 4. View Training Progress (Demo)
+### 4. View Training Progress
 
 ```bash
-# See beautiful training progress in action
+# Display training progress demonstration
 python demo_progress.py
 ```
 
 ### 5. Generate Training Reports
 
 ```bash
-# Generate comprehensive training report with plots
+# Generate training report with plots
 python scripts/generate_report.py \
     --history-file logs/training_history.json \
     --output-dir reports
@@ -386,20 +369,20 @@ Epoch 15 Complete
 └─────────────────────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
 ```
 
-### Automatic Training Reports
+### Training Reports
 
-After training, get comprehensive HTML reports with:
+After training, generate HTML reports with:
 
-- **Interactive loss curves** showing training progression
-- **Challenge metrics** (DES, PDS, MAE) over time  
-- **Training speed** analysis and bottleneck identification
-- **Model configuration** summary and hyperparameters
-- **Best metrics** achieved during training
+- Interactive loss curves showing training progression
+- Challenge metrics (DES, PDS, MAE) over time  
+- Training speed analysis and bottleneck identification
+- Model configuration summary and hyperparameters
+- Best metrics achieved during training
 
 ### Built-in Logging
 
-The trainer provides comprehensive logging:
-- Training/validation losses with beautiful formatting
+The trainer provides logging for:
+- Training/validation losses with formatted output
 - Learning rate schedules and optimization metrics
 - Challenge-specific metrics (MAE, correlation)  
 - GPU memory usage and training time per epoch
@@ -418,6 +401,46 @@ Enable with:
 ```bash
 pip install wandb
 wandb login
+```
+
+## Training Progress Visualization
+
+### Real-Time Progress Display
+
+The trainer provides console output with:
+
+- Live progress bars for epoch and step progress with ETA
+- Dynamic metrics table with live updating loss values and trends  
+- Tracking of best metrics achieved during training
+- Time estimates for completion
+- Formatted console display
+
+### Training Reports
+
+Automatically generated after training:
+
+- Loss evolution plots with matplotlib visualizations
+- Challenge metrics dashboard showing DES, PDS, MAE trends over time
+- Performance analysis including training speed and bottleneck identification  
+- HTML summary report for browser viewing
+- Exportable data as JSON training history for further analysis
+
+### Demo
+
+```bash
+# Display training progress demonstration
+python demo_progress.py
+```
+
+## Challenge Metrics
+
+The model is evaluated using challenge-specific metrics:
+
+- **Differential Expression Score (DES)**: Measures accuracy of up/down regulation predictions
+- **Perturbation Discrimination Score (PDS)**: Assesses if predictions can identify perturbations
+- **Mean Absolute Error (MAE)**: Direct prediction accuracy
+
+## Advanced Usage
 ```
 
 ## � Beautiful Training Experience
@@ -503,7 +526,7 @@ memory:
 
 ### GPU Power Management and Undervolting
 
-For improved power efficiency and thermal management during long training runs:
+For power efficiency and thermal management during training:
 
 ```yaml
 gpu:
@@ -519,11 +542,11 @@ gpu:
 ```
 
 **Benefits of GPU Undervolting:**
-- **Lower Power Consumption**: Reduce electricity costs and heat generation
-- **Better Thermal Performance**: Lower temperatures extend GPU lifespan
-- **Quieter Operation**: Less heat means slower fan speeds
-- **Stable Long Training**: Consistent performance during extended training sessions
-- **Multi-GPU Efficiency**: Particularly beneficial when running multiple RTX 3090s
+- Lower power consumption and reduced electricity costs
+- Improved thermal performance and extended GPU lifespan
+- Quieter operation with slower fan speeds
+- Stable performance during extended training sessions
+- Efficiency improvements for multi-GPU setups
 
 **Safety Features:**
 - Automatic revert to stock settings if instability detected
@@ -641,8 +664,8 @@ print(f'Model parameters: {model.count_parameters():,}')
 2. **Learning Rate**: Use 1e-4 with warmup for stable training
 3. **Multi-GPU**: Use DDP for best performance across GPUs
 4. **Data Loading**: Set `num_workers` to 2x number of CPU cores
-5. **Progress Tracking**: The rich console output is automatically enabled
-6. **Report Generation**: Run after training for comprehensive analysis
+5. **Progress Tracking**: Console output is automatically enabled
+6. **Report Generation**: Run after training for analysis
 
 ## References
 
@@ -671,4 +694,4 @@ For questions and support:
 
 ---
 
-**Built for the Virtual Cell Challenge - Pushing the boundaries of cellular modeling with transformers!**
+Built for the Virtual Cell Challenge - advancing cellular modeling with transformers.
