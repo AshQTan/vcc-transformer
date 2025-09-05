@@ -1,0 +1,113 @@
+# VCC Transformer Configuration - Small/Fast Model
+# Optimized for quick experimentation and testing
+
+# Data Configuration
+data:
+  training_file: "data/adata_Training.h5ad"
+  validation_file: "data/pert_counts_Validation.csv"
+  output_file: "predictions.h5ad"
+  n_highly_variable_genes: 2000  # Fewer genes for speed
+  min_cells_per_perturbation: 5
+  max_cells_per_perturbation: 500
+  validation_split: 0.15
+  normalize_method: "log1p"
+  scale_method: "standard"
+
+# Model Architecture - Small Configuration
+model:
+  d_model: 256      # Smaller hidden dimension
+  n_layers: 4       # Shallow network
+  n_heads: 8        # Fewer attention heads
+  d_ff: 1024        # Smaller feed-forward
+  dropout: 0.1
+  layer_norm_eps: 1e-5
+  max_seq_length: 2002  # Adjusted for fewer genes
+  
+  # Special tokens
+  cls_token_id: 0
+  unk_pert_token_id: 1
+  unk_pert_probability: 0.15
+  
+  # Positional encoding
+  use_learned_pe: true
+  
+  # Flash attention
+  use_flash_attention: true
+
+# Training Configuration - Fast Training
+training:
+  batch_size: 64        # Large batch for speed
+  learning_rate: 2e-4   # Higher LR for fast convergence
+  weight_decay: 0.01
+  warmup_steps: 500
+  max_epochs: 50        # Fewer epochs
+  gradient_clip_norm: 1.0
+  
+  # Loss weighting
+  reconstruction_weight: 1.0
+  classification_weight: 0.8
+  
+  # Optimization
+  optimizer: "adamw"
+  scheduler: "cosine_with_warmup"
+  
+  # Mixed precision
+  use_amp: true
+  amp_dtype: "float16"  # Standard AMP for speed
+  
+  # No gradient checkpointing for speed
+  use_gradient_checkpointing: false
+  
+  # Compilation
+  compile_model: true
+  compile_mode: "reduce-overhead"
+
+# Multi-GPU Configuration
+distributed:
+  use_ddp: true
+  backend: "nccl"
+  find_unused_parameters: false
+
+# Data Loading - Fast loading
+dataloader:
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+
+# Validation & Evaluation
+validation:
+  run_validation: true
+  val_every_n_epochs: 2
+  compute_challenge_metrics: true
+  save_predictions: false  # Skip saving for speed
+
+# Checkpointing & Logging
+checkpointing:
+  save_every_n_epochs: 10
+  save_top_k: 2
+  monitor_metric: "val_combined_loss"
+  mode: "min"
+  checkpoint_dir: "checkpoints_small"
+
+logging:
+  log_every_n_steps: 25
+  log_dir: "logs_small"
+  use_wandb: false  # Disable for speed
+  wandb_project: "vcc-transformer-small"
+  wandb_entity: null
+
+# Hardware Configuration
+hardware:
+  device: "cuda"
+  mixed_precision_backend: "native"
+  benchmark_cudnn: true
+
+# Reproducibility
+seed: 42
+deterministic: false
+
+# Memory Management
+memory:
+  empty_cache_every_n_steps: 100
+  max_memory_usage: 0.8

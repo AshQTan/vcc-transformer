@@ -1,0 +1,131 @@
+# VCC Transformer Configuration
+# High-performance multi-task transformer for Virtual Cell Challenge
+
+# Data Configuration
+data:
+  training_file: "data/adata_Training.h5ad"
+  validation_file: "data/pert_counts_Validation.csv"
+  output_file: "predictions.h5ad"
+  n_highly_variable_genes: 5000
+  min_cells_per_perturbation: 10
+  max_cells_per_perturbation: 1000
+  validation_split: 0.1  # For creating validation set from training data
+  normalize_method: "log1p"  # log1p, zscore, or none
+  scale_method: "standard"  # standard, minmax, or none
+
+# Model Architecture
+model:
+  d_model: 512  # Hidden dimension
+  n_layers: 8   # Number of transformer layers
+  n_heads: 16   # Number of attention heads
+  d_ff: 2048    # Feed-forward dimension
+  dropout: 0.1
+  layer_norm_eps: 1e-5
+  max_seq_length: 5002  # n_genes + CLS + PERT tokens
+  
+  # Special tokens
+  cls_token_id: 0
+  unk_pert_token_id: 1
+  unk_pert_probability: 0.1  # Prob of replacing known pert with UNK during training
+  
+  # Positional encoding
+  use_learned_pe: true
+  
+  # Flash attention
+  use_flash_attention: true
+
+# Training Configuration
+training:
+  batch_size: 32
+  learning_rate: 1e-4
+  weight_decay: 0.01
+  warmup_steps: 1000
+  max_epochs: 100
+  gradient_clip_norm: 1.0
+  
+  # Loss weighting
+  reconstruction_weight: 1.0
+  classification_weight: 0.5  # Beta parameter
+  
+  # Optimization
+  optimizer: "adamw"
+  scheduler: "cosine_with_warmup"
+  
+  # Mixed precision
+  use_amp: true
+  amp_dtype: "bfloat16"  # bfloat16 or float16
+  
+  # Gradient checkpointing for memory efficiency
+  use_gradient_checkpointing: false
+  
+  # Compilation
+  compile_model: true
+  compile_mode: "default"  # default, reduce-overhead, max-autotune
+
+# Multi-GPU Configuration
+distributed:
+  use_ddp: true
+  backend: "nccl"
+  find_unused_parameters: false
+
+# Data Loading
+dataloader:
+  num_workers: 8
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+
+# Validation & Evaluation
+validation:
+  run_validation: true
+  val_every_n_epochs: 5
+  compute_challenge_metrics: true
+  save_predictions: true
+
+# Checkpointing & Logging
+checkpointing:
+  save_every_n_epochs: 10
+  save_top_k: 3
+  monitor_metric: "val_combined_loss"
+  mode: "min"
+  checkpoint_dir: "checkpoints"
+
+logging:
+  log_every_n_steps: 100
+  log_dir: "logs"
+  use_wandb: false
+  wandb_project: "vcc-transformer"
+  wandb_entity: null
+
+# Hardware Configuration
+hardware:
+  device: "cuda"
+  mixed_precision_backend: "native"  # native or apex
+  benchmark_cudnn: true
+
+# GPU Power Management and Undervolting (Optional)
+gpu:
+  enable_undervolting: false          # Enable GPU undervolting for power efficiency
+  undervolt_settings:
+    core_offset: -100                 # Core voltage offset in mV (negative = undervolt)
+    memory_offset: -50                # Memory voltage offset in mV
+    power_limit: 80                   # Power limit as percentage of max TDP
+    temp_limit: 83                    # Temperature limit in Celsius
+    fan_curve_aggressive: true        # Use aggressive fan curve for better cooling
+  auto_optimize: false                # Automatically find optimal undervolt settings
+  safety_checks: true                 # Enable safety checks and monitoring
+  monitoring:
+    enable_monitoring: false          # Enable real-time GPU monitoring
+    log_interval: 30                  # Monitoring log interval in seconds
+    alert_temp_threshold: 85          # Temperature alert threshold (°C)
+    alert_power_threshold: 350        # Power alert threshold (W)
+    log_file: "gpu_monitoring.log"    # GPU monitoring log file
+
+# Reproducibility
+seed: 42
+deterministic: false  # Set to true for full reproducibility (slower)
+
+# Memory Management
+memory:
+  empty_cache_every_n_steps: 100
+  max_memory_usage: 0.9  # Fraction of GPU memory to use
